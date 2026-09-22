@@ -144,7 +144,7 @@ def cmd_run(target_dir: str, prompt: str, provider: str, model: str):
     tester = TesterAgent(target_dir, use_docker=False)
     state = tester.run(state)
 
-    if state.test_result and state.test_result["success"]:
+    if state.test_result and state.test_result.get("exit_code") == 0:
         console.print("  [bold green]🟢 Sandbox Test Status: PASS 100%[/bold green]")
     else:
         console.print(f"  [bold red]🔴 Sandbox Test Status: FAIL ({state.error_message})[/bold red]")

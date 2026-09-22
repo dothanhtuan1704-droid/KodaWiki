@@ -28,10 +28,15 @@ class CoderAgent:
             if os.path.exists(test_path):
                 with open(test_path, "r", encoding="utf-8") as f:
                     test_content = f.read()
+                if "from calculator import add, subtract, multiply" not in test_content:
+                    test_content = test_content.replace(
+                        "from calculator import add, subtract",
+                        "from calculator import add, subtract, multiply",
+                    )
                 if "test_multiply" not in test_content:
                     test_content += "\n\ndef test_multiply():\n"
                     test_content += "    assert multiply(3, 4) == 12\n"
-                    state.code_changes["test_calculator.py"] = test_content
+                state.code_changes["test_calculator.py"] = test_content
 
         # Write all code changes to disk
         for rel_path, content in state.code_changes.items():
